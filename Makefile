@@ -10,3 +10,6 @@ dev-reset: clean run-dev
 # This should be executed against running stack
 migration-run:
 	docker-compose exec api npm run orm -- migration:run
+
+ui-codegen:
+	docker-compose exec ui npm run codegen

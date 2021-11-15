@@ -71,6 +71,9 @@ export const schema = new GraphQLSchema({
           }
         },
         async resolve(_, args, context: ContextT) {
+          if (!args.description) {
+            throw new Error('Description was null')
+          }
           const newNote = context.em.getRepository(Note).create();
           newNote.description = args.description;
           return context.em.save(newNote);

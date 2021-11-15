@@ -1,0 +1,14 @@
+FROM node:latest
+COPY package.json \
+    package-lock.json \
+    /app/
+WORKDIR /app
+RUN npm ci && \
+    npm i -g apollo
+COPY ./public /app/public
+COPY ./apollo.config.js \
+    ./tsconfig.json \
+    /app/
+
+
+CMD [ "npm", "start" ]
