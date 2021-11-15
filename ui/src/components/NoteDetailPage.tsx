@@ -2,8 +2,9 @@ import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { Note, NoteVariables } from './__generated__/Note';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { Layout } from './Layout';
+import { Typography } from '@mui/material';
+import { Note as NoteComponent } from './Note';
 
 const GET_NOTE = gql`
   query Note($id: ID!) {
@@ -45,11 +46,12 @@ export const NoteDetailPage = () => {
   }
 
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        {data.note?.description}
-      </CardContent>
-    </Card>
+    <Layout>
+      <Typography variant="h1" component="h2">
+        {`Detail of "${data.note.description}"`}
+      </Typography>;
+      <NoteComponent id={data.note.id!} description={data.note.description!} />
+    </Layout>
   )
 }
 

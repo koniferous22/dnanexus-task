@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
 import { Notes } from './__generated__/Notes';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Layout } from './Layout';
+import { Box, Link } from '@mui/material';
+import { Note } from './Note';
 
-const GET_NOTES = gql`
+export const GET_NOTES = gql`
   query Notes {
     notes {
       id
@@ -16,7 +16,6 @@ const GET_NOTES = gql`
 `;
 export const NoteListingPage = () => {
   const { loading, error, data } = useQuery<Notes>(GET_NOTES);
-  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -33,13 +32,23 @@ export const NoteListingPage = () => {
 
   return (
     <Layout>
-      {data.notes?.map((note) => (
-        <Card key={note?.id!}>
-          <CardContent onClick={() => navigate(`/note/${note?.id}`)}>
-            {note?.description}
-          </CardContent>
-        </Card>
-      ))}
+      <Box
+        display={"flex"}
+        sx={{ flexDirection: 'column' }}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <Box>
+          {data.notes?.map((note) => (
+            <Box mt={'10px'} key={note?.id!}>
+              <Note id={note?.id!} description={note?.description!} />
+            </Box>
+          ))}
+        </Box>
+        <Box mt={'20px'}>
+          <Link component={RouterLink} to='/new-note'>{'Create a new note'}</Link>
+        </Box>
+      </Box>
     </Layout>
   )
 }
